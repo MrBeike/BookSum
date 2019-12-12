@@ -60,7 +60,7 @@ sheetName = 全年汇总
         window = sg.Window(
             '工作簿汇总工具', default_element_size=(40, 3)).Layout(layout)
         # TODO这里面的逻辑需要优化
-        while not self.type:
+        while True:
             button, values = window.Read()
             if button == 'createINI':
                 self.createINI()
@@ -147,11 +147,10 @@ sheetName = 全年汇总
         final_datas = datas_grouped_sum.drop(columns=[self.cleanFlag], axis=1)
         return final_datas
 
-    def filewriter(self, final_datas):
+    def filewriter(self, final_datas,filePath):
         if self.type == 'xlsx':
             # 利用openpyxl模块的append模式添加数据到原表中(仅支持xlsx文件)
-            filewriter = pd.ExcelWriter(
-                self.filepath, mode='a', engine='openpyxl')
+            filewriter = pd.ExcelWriter(filePath, mode='a', engine='openpyxl')
             final_datas.to_excel(
                 filewriter, sheet_name=self.sheetName, encoding='utf-8')
             filewriter.save()
@@ -176,4 +175,4 @@ if __name__ == '__main__':
         if data:
             data_cleaned = sample.dataclean(data)
             final_datas = sample.sumby(data_cleaned)
-            sample.filewriter(final_datas)
+            sample.filewriter(final_datas,filePath)
