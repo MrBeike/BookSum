@@ -1,9 +1,10 @@
 # 同样式表格简单数据汇总
-
+  所有工作表需要在同一个工作簿中，所有工作表必须统一样式。一般适用场景：每月有数据，需要全年汇总的。
+  
 ## 使用工具
 - Pandas
 - PySimpliGui
-- ConfigParer
+- ConfigParser
 - Pyinstaller
 
 ## 特别说明
