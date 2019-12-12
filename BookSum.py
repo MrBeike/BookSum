@@ -22,21 +22,24 @@ class BookSum:
         return os.path.join(basePath, relativepath)
 
     def createINI(self):
-        # 避免打包—复制的复杂操作，直接将新建一个ini文件再写入内容。看起来很丑。。。
+        # 避免打包—复制的复杂操作，直接将新建一个ini文件再写入内容。
         content = '''[book]
-# params | descript  | default 
-# header | 需要获取的数据开始的行数(从0开始计数，包括标签行)   |  2
-# cleanFlag | 判断数据结束所用的列标签 (根据这列数据的情况去除合计行，因为合计行没有序号)  | 序号  
-# groupFlag |数据汇总分组依据变量所在列标签   |  姓名
-# sheetName | 汇总表名称   | 全年汇总
-#--------特别注意，cleanFlag与groupFlag要与表格保持一致，报过空格数量等-----------#
-header = 2
-cleanFlag = 序号
-groupFlag = 姓  名
-sheetName = 全年汇总
-        '''
+                    ！# params | descript  | default 
+                    ！# header | 需要获取的数据开始的行数(从0开始计数，包括标签行)   |  2
+                    ！# cleanFlag | 判断数据结束所用的列标签 (根据这列数据的情况去除合计行，因为合计行没有序号)  | 序号  
+                    ！# groupFlag |数据汇总分组依据变量所在列标签   |  姓名
+                    ！# sheetName | 汇总表名称   | 全年汇总
+                    ！#--------特别注意，cleanFlag与groupFlag要与表格保持一致，包括空格数量等（如此处的姓名中有两个空格）-----------#
+                    ！header = 2
+                    ！cleanFlag = 序号
+                    ！groupFlag = 姓  名
+                    ！sheetName = 全年汇总
+                    '''
+        # 为了缩进好看点，字符串有几段多了空格，此处处理下
+        content = content.split('！')
+        content = [x.rstrip(' ') for x in content]
         with open('config.ini', 'w+', encoding='utf-8') as file:
-          file.write(content)
+          file.writelines(content)
         sg.popup('ini文件创建成功', font=("微软雅黑", 12), title='提示')
         # 若重新创建ini文件，则需要重新读取ini文件
         self.config()
